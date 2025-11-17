@@ -25,16 +25,24 @@ Data is stored under `data/personal-assistant/` (notes, future state files). The
 - `version` — print version
 - `greet` — friendly greeting (and speak it when available)
 - `speak <text>` — text-to-speech via macOS `say` when available
-- `open <App Name>` — open a macOS application (e.g., "Notes", "Calendar")
+- `open <App Name>` — open a macOS application (e.g., "Notes", "Calendar"). Uses `open -Ra` to validate app; respects `PA_DRY_RUN_OPEN=1`.
 - `note <text>` — append a timestamped note to `data/personal-assistant/notes.txt`
-- `search <query>` — open default browser to a Google search for the query
-- `status` — show a brief system status (battery, volume)
+- `search <query>` — open default browser to a search for the query (supports engines via `PA_SEARCH_ENGINE=google|ddg|bing`; respects `PA_DRY_RUN_OPEN=1`)
+- `status` — show a brief system status (battery, battery time when available, volume, Wi‑Fi network)
 
 ## Requirements
 
 - macOS
 - Bash (default on macOS) and common Unix tools
-- Optional: `say`, `osascript`, `pmset` (present by default on macOS)
+- Optional: `say`, `osascript`, `pmset`, `networksetup`, or the built-in `airport` CLI (present on macOS)
+
+## Configuration
+
+- Environment variables:
+  - `PA_DRY_RUN_OPEN=1` — print what would be opened (apps/URLs) without launching
+  - `PA_SEARCH_ENGINE` — `google` (default), `ddg`, or `bing`
+  - `PA_NOTES_FILE` — override path to notes file (primarily for tests)
+- Config file (optional): `data/personal-assistant/pa.conf` can set the same variables (sourced if present)
 
 ## Roadmap (short)
 
