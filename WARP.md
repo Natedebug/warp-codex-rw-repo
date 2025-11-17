@@ -6,8 +6,10 @@ Repository overview
 - Minimal Bash-based utility repo: two scripts in `scripts/` interoperate via files under `data/`.
 - Defaults assume commands are run from the repo root.
 - Keep work scoped to the current project (for example, stay inside `projects/personal-assistant/`) unless the user confirms a repo-wide improvement first.
+- Begin every session by running `bash scripts/status.sh` so you know about pending Codex requests, recent change-log entries, and the current git status. Update the relevant report files before handing work back.
 - Before editing any file, create a copy to modify and move the pristine original into a backup subfolder (for example, `backups/<date>/filename`).
 - After finishing a change, record what was changed so Codex can review it (see `CODEX.md` for expectations). Codex will inspect both the repo root and all project directories when asked to review, so make sure the change log covers every touched path.
+- Treat `WARP.md` as read-only guidance; only Codex updates it. If expectations shift, coordinate with Codex rather than editing this file directly.
 
 Common commands
 - Read default input

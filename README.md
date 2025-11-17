@@ -42,6 +42,12 @@ Write content from arguments:
 
 Result is written to the chosen output path; parent directories are created as needed.
 
+Check repo status (pending requests, change log summary, git state):
+
+```bash
+bash scripts/status.sh
+```
+
 ## Validation
 
 Run the helper script to lint the Bash utilities (when `shellcheck` is available) and perform a read/write smoke test:
