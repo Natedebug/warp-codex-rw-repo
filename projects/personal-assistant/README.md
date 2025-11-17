@@ -19,6 +19,17 @@ Goal: Build a lightweight personal assistant focused on macOS that can run local
 
 Data is stored under `data/personal-assistant/` (notes, future state files). These are ignored by git to keep user data local.
 
+## macOS simulation for testing
+
+Need to test on a non-macOS host? Use the simulated macOS 12.6.1 (MacBook Pro M1 Pro) environment:
+
+- Create stubs: `bash projects/personal-assistant/scripts/create-macos-sim-env.sh`
+- Activate for your shell: `source projects/personal-assistant/.macos-12.6.1-sim/activate`
+- Run validations (e.g., `bash scripts/test.sh`).
+- Deactivate when finished: `source projects/personal-assistant/.macos-12.6.1-sim/deactivate`
+
+See `docs/VIRTUAL_ENV.md` for details and verification steps.
+
 ## Commands (initial)
 
 - `help` — show help
