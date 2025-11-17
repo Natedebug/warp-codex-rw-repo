@@ -13,6 +13,11 @@ Template:
 
 Keep the newest entries at the top for quick scanning.
 
+## 2025-11-17 13:16 UTC — Make macOS simulation generated-only
+- Files touched: .gitignore, projects/personal-assistant/scripts/create-macos-sim-env.sh, projects/personal-assistant/README.md, projects/personal-assistant/docs/VIRTUAL_ENV.md, reports/warp-changes.md
+- Summary: Ignored the generated macOS simulation directory, removed tracked stubs, restored PA_DRY_RUN_OPEN on deactivate, and clarified activation/deactivation docs.
+- Validation: `bash scripts/test.sh`; `bash projects/personal-assistant/scripts/test.sh`
+
 ## 2025-11-17 12:46 UTC — Add macOS simulation test environment
 - Files touched: projects/personal-assistant/scripts/create-macos-sim-env.sh, projects/personal-assistant/docs/VIRTUAL_ENV.md, projects/personal-assistant/README.md
 - Summary: Added a stubbed macOS 12.6.1 (MacBook Pro M1 Pro) simulation for testing, documented how to use it, and linked it from the README for easy discovery.

@@ -1,8 +1,0 @@
-# shellcheck shell=bash
-# Source this file to activate the macOS 12.6.1 (MacBook Pro M1 Pro) simulation.
-export _PA_SIM_OLD_PATH="${_PA_SIM_OLD_PATH:-$PATH}"
-export PATH="/workspace/warp-codex-rw-repo/projects/personal-assistant/.macos-12.6.1-sim/bin:${PATH}"
-export PA_DRY_RUN_OPEN="${PA_DRY_RUN_OPEN:-1}"
-export PA_SIM_MAC_MODEL="MacBookPro18,3"
-export PA_SIM_MACOS_VERSION="12.6.1"
-echo "Activated personal-assistant macOS 12.6.1 (MacBook Pro M1 Pro) simulation."

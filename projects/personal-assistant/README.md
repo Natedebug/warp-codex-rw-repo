@@ -25,7 +25,8 @@ Need to test on a non-macOS host? Use the simulated macOS 12.6.1 (MacBook Pro M1
 
 - Create stubs: `bash projects/personal-assistant/scripts/create-macos-sim-env.sh`
 - Activate for your shell: `source projects/personal-assistant/.macos-12.6.1-sim/activate`
-- Run validations (e.g., `bash scripts/test.sh`), then deactivate with `source .../deactivate`
+- Run validations (e.g., `bash scripts/test.sh`).
+- Deactivate when finished: `source projects/personal-assistant/.macos-12.6.1-sim/deactivate`
 
 See `docs/VIRTUAL_ENV.md` for details and verification steps.
 

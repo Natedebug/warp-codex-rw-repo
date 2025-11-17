@@ -23,6 +23,8 @@ Use this virtual test environment when you need macOS-style behaviors on a non-m
    source projects/personal-assistant/.macos-12.6.1-sim/deactivate
    ```
 
+> Note: `python3` must be available on `PATH` so the activation script can embed the correct bin directory.
+
 ## What the simulation provides
 
 - `pmset -g batt` prints a Monterey-style battery line (e.g., `86% discharging; 3:44 remaining`).

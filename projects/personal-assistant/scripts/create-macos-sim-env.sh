@@ -97,6 +97,7 @@ create_activate() {
 # Source this file to activate the macOS 12.6.1 (MacBook Pro M1 Pro) simulation.
 export _PA_SIM_OLD_PATH="${_PA_SIM_OLD_PATH:-$PATH}"
 export PATH="__BIN_DIR__:${PATH}"
+export _PA_SIM_OLD_DRY_RUN_OPEN="${_PA_SIM_OLD_DRY_RUN_OPEN:-${PA_DRY_RUN_OPEN:-}}"
 export PA_DRY_RUN_OPEN="${PA_DRY_RUN_OPEN:-1}"
 export PA_SIM_MAC_MODEL="MacBookPro18,3"
 export PA_SIM_MACOS_VERSION="12.6.1"
@@ -118,6 +119,12 @@ if [[ -n "${_PA_SIM_OLD_PATH:-}" ]]; then
   export PATH="${_PA_SIM_OLD_PATH}"
   unset _PA_SIM_OLD_PATH
 fi
+if [[ -n "${_PA_SIM_OLD_DRY_RUN_OPEN:-}" ]]; then
+  export PA_DRY_RUN_OPEN="${_PA_SIM_OLD_DRY_RUN_OPEN}"
+else
+  unset PA_DRY_RUN_OPEN
+fi
+unset _PA_SIM_OLD_DRY_RUN_OPEN
 unset PA_SIM_MAC_MODEL
 unset PA_SIM_MACOS_VERSION
 echo "Deactivated personal-assistant macOS simulation."
