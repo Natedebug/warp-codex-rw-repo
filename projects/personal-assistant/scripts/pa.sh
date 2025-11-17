@@ -4,7 +4,8 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(git -C "$SCRIPT_DIR" rev-parse --show-toplevel 2>/dev/null || (cd "$SCRIPT_DIR/../../../" && pwd))"
 DATA_DIR="$ROOT_DIR/data/personal-assistant"
-NOTES_FILE="$DATA_DIR/notes.txt"
+# Allow overriding notes storage for tests via PA_NOTES_FILE
+NOTES_FILE="${PA_NOTES_FILE:-$DATA_DIR/notes.txt}"
 VERSION="0.1.0"
 
 mkdir -p "$DATA_DIR"
@@ -58,7 +59,14 @@ urlencode() {
 
 battery_status() {
   if command -v pmset >/dev/null 2>&1; then
-    pmset -g batt 2>/dev/null | head -n1 | sed 's/.*Battery Power;//; s/.*Now;//; s/.*InternalBattery-\d+;//' || true
+    # Extract a concise status like "86% discharging" from pmset output
+    pmset -g batt 2>/dev/null | awk -F';' '/%/ {
+      # $1 ends with e.g. "... 86%"; $2 contains state like " discharging"
+      gsub(/.*[[:space:]]/, "", $1)
+      gsub(/^[[:space:]]+|[[:space:]]+$/, "", $2)
+      printf "%s %s\n", $1, $2
+      exit
+    }' || true
   fi
 }
 
