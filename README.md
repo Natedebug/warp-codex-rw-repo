@@ -9,6 +9,11 @@ A minimal repository that both Warp and Codex CLI (or any CLI) can read from and
 - `scripts/backup.sh` — Moves the pristine original of a file into `backups/` and restores a working copy in place for editing.
 - `data/input.txt` — Example input file.
 
+## Projects
+
+- Personal Assistant (macOS-first): `projects/personal-assistant/`
+  - Entry point: `bash projects/personal-assistant/scripts/pa.sh help`
+
 ## Requirements
 
 - macOS default shell (bash/zsh) is sufficient; scripts use `bash` and common Unix tools.

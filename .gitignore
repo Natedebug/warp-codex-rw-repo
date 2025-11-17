@@ -21,3 +21,7 @@ __pycache__/
 # Project outputs
 data/output*
 backups/
+
+# Personal Assistant user data (keep local)
+data/personal-assistant/*
+!data/personal-assistant/.gitkeep
