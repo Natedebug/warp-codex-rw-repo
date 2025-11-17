@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Prevent direct pushes to protected branches such as main.
+
+blocked_branches=("main" "master")
+
+echo "pre-push hook: validating target branches..." >&2
+
+while read -r local_ref local_sha remote_ref remote_sha; do
+  [[ -z "${remote_ref:-}" ]] && continue
+  branch="${remote_ref#refs/heads/}"
+  for blocked in "${blocked_branches[@]}"; do
+    if [[ "$branch" == "$blocked" ]]; then
+      cat >&2 <<EOF
+ERROR: Direct pushes to '$branch' are blocked. Create a feature branch and push that instead,
+then open a PR or request Codex to review and merge.
+EOF
+      exit 1
+    fi
+  done
+done
+
+exit 0
