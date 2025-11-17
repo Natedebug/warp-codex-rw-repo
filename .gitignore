@@ -25,3 +25,6 @@ backups/
 # Personal Assistant user data (keep local)
 data/personal-assistant/*
 !data/personal-assistant/.gitkeep
+
+# Personal Assistant macOS simulation (generated)
+projects/personal-assistant/.macos-12.6.1-sim/
