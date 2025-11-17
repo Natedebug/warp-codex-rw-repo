@@ -67,12 +67,18 @@ bash scripts/test.sh
 
 ## Collaboration workflow
 
-- Read `WARP.md` and `CODEX.md` for role-specific guidance.
+- Read `WARP.md`, `CODEX.md`, and `CONTRIBUTING.md` for role-specific guidance and contribution policy.
 - Always duplicate a file before editing; move the untouched original into a subfolder (for example, `backups/<date>/filename`) so it can be restored later.
 - Use `scripts/backup.sh path/to/file` to automate creating the backup and resetting a working copy.
 - Warp documents its modifications by adding entries to `reports/warp-changes.md` so Codex can review and summarize them for the user.
 - Codex reviews Warp's changes, explains them to the user, and flags issues with suggested fixes.
 - Run `bash scripts/install-hooks.sh` after cloning or pulling new hook updates to install the local Git hook that blocks direct pushes to `main`.
+
+## Contributing
+
+- Never push directly to `main`; create a feature branch per task (e.g., `warp/<task-name>`) and open a PR.
+- Leave PRs open for review by others; do not self-merge. Merge only after explicit approval.
+- See `CONTRIBUTING.md` for full details.
 
 ## Notes
 
