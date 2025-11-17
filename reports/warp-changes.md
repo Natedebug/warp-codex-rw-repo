@@ -13,6 +13,11 @@ Template:
 
 Keep the newest entries at the top for quick scanning.
 
+## 2025-11-17 05:50 UTC — Add CONTRIBUTING; document PR policy in README
+- Files touched: CONTRIBUTING.md, README.md
+- Summary: Added CONTRIBUTING.md describing branch/PR policy (no direct pushes to main; PRs required and left open for review), setup (install hooks, status), workflow (backup, change log, validation). Updated README to link to CONTRIBUTING and summarize the policy.
+- Validation: Docs-only change.
+
 ## 2025-11-17 04:11 UTC — Address Codex requests: safer tests, battery parser, restore change log header
 - Files touched: projects/personal-assistant/scripts/pa.sh, projects/personal-assistant/scripts/test.sh, reports/warp-changes.md
 - Summary: Tests now use a temporary notes file (no data loss), `battery_status()` uses a robust parser for pmset output, and the change log header/template is restored to the top with entries below it.
