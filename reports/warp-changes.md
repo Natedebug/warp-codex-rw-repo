@@ -13,6 +13,11 @@ Template:
 
 Keep the newest entries at the top for quick scanning.
 
+## 2025-11-17 06:36 UTC — Avoid opening apps during validation
+- Files touched: projects/personal-assistant/scripts/pa.sh
+- Summary: Updated `open` validation to use `osascript`/filesystem checks so dry runs no longer launch or reveal apps while still rejecting unknown names.
+- Validation: Manual review; personal-assistant tests still pass (see Codex run).
+
 ## 2025-11-17 05:50 UTC — Add CONTRIBUTING; document PR policy in README
 - Files touched: CONTRIBUTING.md, README.md
 - Summary: Added CONTRIBUTING.md describing branch/PR policy (no direct pushes to main; PRs required and left open for review), setup (install hooks, status), workflow (backup, change log, validation). Updated README to link to CONTRIBUTING and summarize the policy.

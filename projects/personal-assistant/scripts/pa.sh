@@ -117,9 +117,25 @@ cmd_open() {
     exit 1
   fi
   local app="$*"
-  if ! open -Ra "$app" >/dev/null 2>&1; then
-    echo "App not found: $app" >&2
-    exit 1
+  if command -v osascript >/dev/null 2>&1; then
+    if ! osascript -e 'id of application "'"'"'"'$app'"'"'"'"' >/dev/null 2>&1; then
+      echo "App not found: $app" >&2
+      exit 1
+    fi
+  else
+    local candidate
+    for candidate in "/Applications/$app.app" \
+      "/System/Applications/$app.app" \
+      "$HOME/Applications/$app.app"; do
+      if [[ -d "$candidate" ]]; then
+        break
+      fi
+      candidate=""
+    done
+    if [[ -z "${candidate:-}" ]]; then
+      echo "App not found: $app" >&2
+      exit 1
+    fi
   fi
   if [[ "${PA_DRY_RUN_OPEN:-0}" = 1 ]]; then
     echo "(dry-run) Would open app: $app"
