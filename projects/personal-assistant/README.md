@@ -38,11 +38,11 @@ Data is stored under `data/personal-assistant/` (notes, future state files). The
 
 ## Configuration
 
-- Environment variables:
-  - `PA_DRY_RUN_OPEN=1` — print what would be opened (apps/URLs) without launching
-  - `PA_SEARCH_ENGINE` — `google` (default), `ddg`, or `bing`
-  - `PA_NOTES_FILE` — override path to notes file (primarily for tests)
-- Config file (optional): `data/personal-assistant/pa.conf` can set the same variables (sourced if present)
+Set environment variables to customize behavior:
+
+- `PA_DRY_RUN_OPEN=1` — print what would be opened (apps/URLs) without launching
+- `PA_SEARCH_ENGINE` — `google` (default), `ddg`, or `bing`
+- `PA_NOTES_FILE` — override path to notes file (primarily for tests)
 
 ## Roadmap (short)
 
