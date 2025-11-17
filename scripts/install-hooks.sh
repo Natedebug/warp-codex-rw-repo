@@ -13,16 +13,15 @@ fi
 
 mkdir -p "$HOOKS_TARGET"
 
-for hook in pre-push; do
-  src="$HOOKS_SOURCE/$hook"
-  dest="$HOOKS_TARGET/$hook"
-  if [[ ! -f "$src" ]]; then
-    echo "Skipping $hook (no source script at $src)" >&2
-    continue
-  fi
+hook="pre-push"
+src="$HOOKS_SOURCE/$hook"
+dest="$HOOKS_TARGET/$hook"
+if [[ ! -f "$src" ]]; then
+  echo "Skipping $hook (no source script at $src)" >&2
+else
   cp "$src" "$dest"
   chmod +x "$dest"
   echo "Installed $hook hook to $dest"
-done
+fi
 
 echo "Git hooks installed. Future pushes to blocked branches will be rejected locally."
