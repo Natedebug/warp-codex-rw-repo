@@ -13,6 +13,11 @@ Template:
 
 Keep the newest entries at the top for quick scanning.
 
+## 2025-11-17 05:36 UTC — PA must-fix: robust URL encode, safe app open, status polish; docs/tests updated
+- Files touched: projects/personal-assistant/scripts/pa.sh, projects/personal-assistant/scripts/test.sh, projects/personal-assistant/README.md
+- Summary: Replaced brittle URL encoding with Python fallback and POSIX-safe loop; validated apps before opening and added PA_DRY_RUN_OPEN for tests; enhanced status with Wi‑Fi SSID and battery time when available; documented config and updated tests to use dry-run where needed.
+- Validation: `bash projects/personal-assistant/scripts/test.sh` passed locally.
+
 ## 2025-11-17 04:11 UTC — Address Codex requests: safer tests, battery parser, restore change log header
 - Files touched: projects/personal-assistant/scripts/pa.sh, projects/personal-assistant/scripts/test.sh, reports/warp-changes.md
 - Summary: Tests now use a temporary notes file (no data loss), `battery_status()` uses a robust parser for pmset output, and the change log header/template is restored to the top with entries below it.
