@@ -4,11 +4,26 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(git -C "$SCRIPT_DIR" rev-parse --show-toplevel 2>/dev/null || (cd "$SCRIPT_DIR/../../../" && pwd))"
 DATA_DIR="$ROOT_DIR/data/personal-assistant"
+# Optional permissions configuration
+CONFIG_DIR="$ROOT_DIR/projects/personal-assistant/config"
+PERMISSIONS_FILE="${PA_PERMISSIONS_FILE:-$CONFIG_DIR/permissions.env}"
+PERMISSIONS_LIB="$ROOT_DIR/projects/personal-assistant/src/permissions.sh"
 # Allow overriding notes storage for tests via PA_NOTES_FILE
 NOTES_FILE="${PA_NOTES_FILE:-$DATA_DIR/notes.txt}"
 VERSION="0.1.0"
 
 mkdir -p "$DATA_DIR"
+
+# shellcheck source=../src/permissions.sh
+if [[ -f "$PERMISSIONS_LIB" ]]; then
+  # shellcheck disable=SC1090
+  source "$PERMISSIONS_LIB"
+fi
+
+if [[ -f "$PERMISSIONS_FILE" ]]; then
+  # shellcheck disable=SC1090
+  source "$PERMISSIONS_FILE"
+fi
 
 usage() {
   cat <<'USAGE'
@@ -25,6 +40,8 @@ Commands:
   note <text>           Append a timestamped note to data/personal-assistant/notes.txt
   search <query>        Open default browser to a web search for the query
   status                Show brief system status (battery, volume)
+  read <path>           Read a file after verifying read permissions
+  write <path> <text>   Append text to a file when write permissions allow
 
 Examples:
   pa greet
@@ -151,6 +168,7 @@ cmd_note() {
   fi
   local ts
   ts="$(date '+%Y-%m-%d %H:%M:%S %Z')"
+  require_write_permission "$NOTES_FILE"
   printf '[%s] %s\n' "$ts" "$*" >> "$NOTES_FILE"
   echo "Saved note to $NOTES_FILE"
 }
@@ -204,6 +222,30 @@ cmd_status() {
   [[ -n "${wifi:-}" ]] && echo "  Wi-Fi: $wifi" || echo "  Wi-Fi: (offline/unavailable)"
 }
 
+cmd_read() {
+  if [[ $# -lt 1 ]]; then
+    echo "Usage: $0 read <path>" >&2
+    exit 1
+  fi
+  local abs
+  abs=$(ensure_readable_path "$1")
+  cat "$abs"
+}
+
+cmd_write() {
+  if [[ $# -lt 2 ]]; then
+    echo "Usage: $0 write <path> <text>" >&2
+    exit 1
+  fi
+  local target="$1"
+  shift
+  require_write_permission "$target"
+  local abs
+  abs=$(resolve_pa_path "$target")
+  printf '%s\n' "$*" >> "$abs"
+  echo "Saved text to $abs"
+}
+
 main() {
   local cmd
   cmd="${1:-help}"
@@ -217,6 +259,8 @@ main() {
     note) cmd_note "$@" ;;
     search) cmd_search "$@" ;;
     status) cmd_status "$@" ;;
+    read) cmd_read "$@" ;;
+    write) cmd_write "$@" ;;
     *) echo "Unknown command: $cmd" >&2; echo "Try: $0 help" >&2; exit 1 ;;
   esac
 }

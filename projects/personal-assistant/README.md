@@ -29,6 +29,8 @@ Data is stored under `data/personal-assistant/` (notes, future state files). The
 - `note <text>` — append a timestamped note to `data/personal-assistant/notes.txt`
 - `search <query>` — open default browser to a search for the query (supports engines via `PA_SEARCH_ENGINE=google|ddg|bing`; respects `PA_DRY_RUN_OPEN=1`)
 - `status` — show a brief system status (battery, battery time when available, volume, Wi‑Fi network)
+- `read <path>` — read a file after validating read permissions
+- `write <path> <text>` — append text to a file within the allowed write directories
 
 ## Requirements
 
@@ -43,6 +45,9 @@ Set environment variables to customize behavior:
 - `PA_DRY_RUN_OPEN=1` — print what would be opened (apps/URLs) without launching
 - `PA_SEARCH_ENGINE` — `google` (default), `ddg`, or `bing`
 - `PA_NOTES_FILE` — override path to notes file (primarily for tests)
+- `PA_ALLOW_READ` / `PA_ALLOW_WRITE` / `PA_ALLOWED_WRITE_DIRS` — control filesystem access; see `docs/PERMISSIONS.md`
+
+Copy `config/permissions.env.sample` to `config/permissions.env` to set per-user permissions and source it before running the CLI.
 
 ## Roadmap (short)
 
