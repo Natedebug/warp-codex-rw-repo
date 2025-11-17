@@ -6,6 +6,9 @@ Repository overview
 - Minimal Bash-based utility repo: two scripts in `scripts/` interoperate via files under `data/`.
 - Defaults assume commands are run from the repo root.
 - Keep work scoped to the current project (for example, stay inside `projects/personal-assistant/`) unless the user confirms a repo-wide improvement first.
+- Never work directly on `main`; create a dedicated branch (for example, `warp/<task-name>`) for every change set and push/hand off from there so Codex or the user can review before merging.
+- Treat each prompt/task as its own branch. If the user gives you multiple tasks before Codex reviews them, spin up one branch per task (`warp/task-a`, `warp/task-b`, ...), keep the work isolated, and note which branch is ready for review in `reports/warp-changes.md`.
+- After cloning (or when hooks change), run `bash scripts/install-hooks.sh` so the local Git hook blocks accidental pushes to protected branches like `main`.
 - Begin every session by running `bash scripts/status.sh` so you know about pending Codex requests, recent change-log entries, and the current git status. Update the relevant report files before handing work back.
 - Before editing any file, create a copy to modify and move the pristine original into a backup subfolder (for example, `backups/<date>/filename`).
 - After finishing a change, record what was changed so Codex can review it (see `CODEX.md` for expectations). Codex will inspect both the repo root and all project directories when asked to review, so make sure the change log covers every touched path.

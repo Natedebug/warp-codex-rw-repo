@@ -9,3 +9,4 @@ Instructions for Codex CLI when working in this repository:
 5. Perform edits on a copy of the original file; move the original into a subfolder (for example, `backups/<date>/filename`) so it remains available for future reference (`scripts/backup.sh` automates this).
 6. Only Codex updates `WARP.md`; Warp may read it for guidance but must not modify it. Keep `WARP.md` aligned with any new expectations you add here.
 7. Follow the shared workflow summarized in `README.md`.
+8. After cloning or when hook scripts change, run `bash scripts/install-hooks.sh` so the local Git hook that blocks pushes to `main` is active.

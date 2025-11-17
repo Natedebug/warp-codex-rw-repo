@@ -63,6 +63,7 @@ bash scripts/test.sh
 - Use `scripts/backup.sh path/to/file` to automate creating the backup and resetting a working copy.
 - Warp documents its modifications by adding entries to `reports/warp-changes.md` so Codex can review and summarize them for the user.
 - Codex reviews Warp's changes, explains them to the user, and flags issues with suggested fixes.
+- Run `bash scripts/install-hooks.sh` after cloning or pulling new hook updates to install the local Git hook that blocks direct pushes to `main`.
 
 ## Notes
 
