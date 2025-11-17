@@ -13,6 +13,11 @@ Template:
 
 Keep the newest entries at the top for quick scanning.
 
+## 2025-11-17 12:28 UTC — Add permission-aware filesystem commands
+- Files touched: projects/personal-assistant/scripts/pa.sh, projects/personal-assistant/src/permissions.sh, projects/personal-assistant/config/permissions.env.sample, projects/personal-assistant/docs/PERMISSIONS.md, projects/personal-assistant/README.md
+- Summary: Added a permissions module and CLI commands for controlled read/write operations, with sample macOS configuration and documentation. Notes now respect write-allowance settings, and new read/write commands gate access based on user-defined directories.
+- Validation: `bash scripts/test.sh`; `bash projects/personal-assistant/scripts/test.sh`
+
 ## 2025-11-17 10:40 UTC — Fix ShellCheck lint in install-hooks.sh
 - Files touched: scripts/install-hooks.sh
 - Summary: Resolved ShellCheck SC2043 by removing a single-item for-loop; the script now sets the hook explicitly and runs once. Backed up the original before editing.
