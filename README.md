@@ -2,6 +2,8 @@
 
 A minimal repository that both Warp and Codex CLI (or any CLI) can read from and write to. It provides simple, dependency-free shell scripts for reading a file and writing content to a file.
 
+GitHub repository: https://github.com/Natedebug/warp-codex-rw-repo
+
 ## Structure
 
 - `scripts/read.sh` — Prints the contents of a file (defaults to `data/input.txt`).
@@ -55,6 +57,13 @@ Run the helper script to lint the Bash utilities (when `shellcheck` is available
 ```bash
 bash scripts/test.sh
 ```
+
+## Next steps
+
+1. Review the latest change log entries to understand recent updates: `bash scripts/status.sh`.
+2. Run the validation helper to verify the utilities on your machine: `bash scripts/test.sh`.
+3. Explore the macOS Personal Assistant project and its CLI: `bash projects/personal-assistant/scripts/pa.sh help`.
+4. Use `scripts/backup.sh <path>` before editing files to keep pristine copies under `backups/`.
 
 ## Collaboration workflow
 
