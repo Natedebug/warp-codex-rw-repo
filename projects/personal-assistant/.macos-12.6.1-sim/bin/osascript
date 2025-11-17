@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+# Respond to volume queries and app identifier lookups
+if [[ "$#" -ge 2 && "$1" == "-e" ]]; then
+  case "$2" in
+    *"output volume of"*)
+      echo "42"
+      exit 0
+      ;;
+    *"id of application"*)
+      # Return a predictable bundle id for simulated apps
+      app_name=$(printf "%s" "$2" | sed -n "s/.*id of application ['\"]\(.*\)['\"].*/\1/p")
+      [[ -z "$app_name" ]] && app_name="App"
+      echo "com.apple.$(echo "$app_name" | tr ' ' '_' | tr '[:upper:]' '[:lower:]')"
+      exit 0
+      ;;
+  esac
+fi
+echo "osascript stub: unsupported args $*" >&2
+exit 1

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+if [[ "$#" -ge 2 && "$1" == "-g" && "$2" == "batt" ]]; then
+  cat <<'OUT'
+Now drawing from 'Battery Power'
+ -InternalBattery-0 (id=1234567)  86%; discharging; 3:44 remaining present: true
+OUT
+  exit 0
+fi
+echo "pmset stub: unsupported args $*" >&2
+exit 1

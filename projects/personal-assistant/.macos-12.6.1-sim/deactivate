@@ -1,0 +1,9 @@
+# shellcheck shell=bash
+# Source this file to restore the previous PATH and unset simulation metadata.
+if [[ -n "${_PA_SIM_OLD_PATH:-}" ]]; then
+  export PATH="${_PA_SIM_OLD_PATH}"
+  unset _PA_SIM_OLD_PATH
+fi
+unset PA_SIM_MAC_MODEL
+unset PA_SIM_MACOS_VERSION
+echo "Deactivated personal-assistant macOS simulation."
