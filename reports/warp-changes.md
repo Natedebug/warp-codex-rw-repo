@@ -13,6 +13,11 @@ Template:
 
 Keep the newest entries at the top for quick scanning.
 
+## 2025-11-17 10:40 UTC — Fix ShellCheck lint in install-hooks.sh
+- Files touched: scripts/install-hooks.sh
+- Summary: Resolved ShellCheck SC2043 by removing a single-item for-loop; the script now sets the hook explicitly and runs once. Backed up the original before editing.
+- Validation: Installed ShellCheck via Homebrew (0.11.0); `bash scripts/test.sh` passed with lint enabled and the read/write round-trip succeeded.
+
 ## 2025-11-17 05:50 UTC — Add CONTRIBUTING; document PR policy in README
 - Files touched: CONTRIBUTING.md, README.md
 - Summary: Added CONTRIBUTING.md describing branch/PR policy (no direct pushes to main; PRs required and left open for review), setup (install hooks, status), workflow (backup, change log, validation). Updated README to link to CONTRIBUTING and summarize the policy.
