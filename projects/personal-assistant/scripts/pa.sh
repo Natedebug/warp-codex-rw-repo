@@ -42,19 +42,25 @@ say_if_available() {
 }
 
 urlencode() {
-  # URL-encode the input string
+  # Prefer Python for robust encoding; fall back to a POSIX-safe shell impl
+  if command -v python3 >/dev/null 2>&1; then
+    python3 - "$@" <<'PY'
+import sys, urllib.parse
+print(urllib.parse.quote_plus(" ".join(sys.argv[1:])))
+PY
+    return 0
+  fi
   local LC_ALL=C
   local s="$*"
-  local i c e=""
+  local i c
   for (( i=0; i<${#s}; i++ )); do
     c=${s:$i:1}
     case "$c" in
-      [a-zA-Z0-9.~_-]) e+="$c" ;;
-      ' ') e+="+" ;;
-      *) printf -v hex '%%%02X' "'"$c; e+="$hex" ;;
+      [a-zA-Z0-9.~_-]) printf '%s' "$c" ;;
+      ' ') printf '+' ;;
+      *) printf '%%%02X' "'"$c ;;
     esac
   done
-  printf '%s' "$e"
 }
 
 battery_status() {
@@ -74,6 +80,19 @@ volume_status() {
   if command -v osascript >/dev/null 2>&1; then
     osascript -e 'output volume of (get volume settings)' 2>/dev/null || true
   fi
+}
+
+wifi_status() {
+  local ssid="" interface="" airport_bin="/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport"
+  if [[ -x "$airport_bin" ]]; then
+    ssid="$("$airport_bin" -I 2>/dev/null | awk -F': ' '/ SSID/ {gsub(/^[[:space:]]+|[[:space:]]+$/, "", $2); print $2; exit}' || true)"
+  elif command -v networksetup >/dev/null 2>&1; then
+    interface="$(networksetup -listallhardwareports 2>/dev/null | awk '/Wi-Fi|AirPort/ {getline; if ($1 == "Device:") {print $2; exit}}' || true)"
+    if [[ -n "${interface:-}" ]]; then
+      ssid="$(networksetup -getairportnetwork "$interface" 2>/dev/null | awk -F': ' '/Current Wi-Fi Network/ {gsub(/^[[:space:]]+|[[:space:]]+$/, "", $2); print $2; exit}' || true)"
+    fi
+  fi
+  printf '%s' "$ssid"
 }
 
 cmd_greet() {
@@ -97,7 +116,16 @@ cmd_open() {
     echo "Usage: $0 open <App Name>" >&2
     exit 1
   fi
-  open -a "$*"
+  local app="$*"
+  if ! open -Ra "$app" >/dev/null 2>&1; then
+    echo "App not found: $app" >&2
+    exit 1
+  fi
+  if [[ "${PA_DRY_RUN_OPEN:-0}" = 1 ]]; then
+    echo "(dry-run) Would open app: $app"
+    return 0
+  fi
+  open -a "$app"
 }
 
 cmd_note() {
@@ -116,18 +144,48 @@ cmd_search() {
     echo "Usage: $0 search <query>" >&2
     exit 1
   fi
-  local q
+  local engine url q
   q=$(urlencode "$*")
-  open "https://www.google.com/search?q=$q"
+  engine="${PA_SEARCH_ENGINE:-google}"
+  case "$engine" in
+    google) url="https://www.google.com/search?q=$q" ;;
+    ddg|duckduckgo) url="https://duckduckgo.com/?q=$q" ;;
+    bing) url="https://www.bing.com/search?q=$q" ;;
+    *) url="https://www.google.com/search?q=$q" ;;
+  esac
+  if [[ "${PA_DRY_RUN_OPEN:-0}" = 1 ]]; then
+    echo "(dry-run) Would open URL: $url"
+    return 0
+  fi
+  open "$url"
+}
+
+battery_time_remaining() {
+  if command -v pmset >/dev/null 2>&1; then
+    pmset -g batt 2>/dev/null | awk -F';' '/%/ {
+      # Field 3 often contains time like " 3:44 remaining" or " (no estimate)"
+      if (NF >= 3) {
+        t=$3
+        gsub(/^[[:space:]]+|[[:space:]]+$/, "", t)
+        sub(/ present:.*/, "", t)
+        print t
+      }
+      exit
+    }' || true
+  fi
 }
 
 cmd_status() {
   echo "Status:"
-  local batt vol
+  local batt vol wifi time
   batt=$(battery_status || true)
   vol=$(volume_status || true)
+  wifi=$(wifi_status || true)
+  time=$(battery_time_remaining || true)
   [[ -n "${batt:-}" ]] && echo "  Battery: $batt" || echo "  Battery: (unavailable)"
+  [[ -n "${time:-}" ]] && echo "  Battery time: $time" || true
   [[ -n "${vol:-}" ]] && echo "  Volume: $vol" || echo "  Volume: (unavailable)"
+  [[ -n "${wifi:-}" ]] && echo "  Wi-Fi: $wifi" || echo "  Wi-Fi: (offline/unavailable)"
 }
 
 main() {
